@@ -24,6 +24,7 @@ fs.readFile('items.json', 'utf-8', (err, data) =>
                 app.locals.idCounter = item.id;
             }
         });
+        app.locals.idCounter++;
         console.log("Loaded items!");
     }
 });
