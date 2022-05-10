@@ -7,13 +7,13 @@ const fs = require('fs');
 function save(items)
 {
     //Uncomment to reenable saving
-    /*fs.writeFile('items.json', JSON.stringify(items), (err) =>
+    fs.writeFile('items.json', JSON.stringify(items), (err) =>
     {
         if (err)
         {
             throw err;
         }
-    });*/
+    });
 }
 
 //Get a full map of inventory in JSON
