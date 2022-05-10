@@ -81,20 +81,29 @@ function editItem(index)
 
 function deleteItem(index)
 {
-    let comments = prompt("Press OK to delete.\nAdd comments:", "");
-
-    if (comments != null)
+    let alreadyDeleted = items[index].deleted;
+    let comments;
+    if (alreadyDeleted || (comments = prompt("Press OK to delete.\nAdd comments:", "")) != null)
     {
         items[index].comments = comments;
         let req = new XMLHttpRequest();
+
         req.onreadystatechange = function()
         {
             if(this.readyState == 4)
             {
                 if(this.status == 200)
                 {
-                    items[index].deleted = true;
-                    console.log("Item deleted!");
+                    if(alreadyDeleted)
+                    {
+                        delete items[index];
+                    }
+                    else
+                    {
+                        items[index].deleted = true;
+                        console.log("Item deleted!");
+                    }
+
                     renderList();
                 }
                 else
@@ -177,12 +186,21 @@ function renderList()
             text.id = "text" + id;
             newDiv.appendChild(text);
 
-            newList.appendChild(newDiv);
+            newList.prepend(newDiv);
         }
         else
         {
             let newDiv = document.createElement("div");
             let id = elem.id;
+
+            let newDelete = document.createElement("input");
+            newDelete.type = "button";
+            newDelete.value = "Permanently Delete";
+            newDelete.addEventListener('click', function()
+            {
+                deleteItem(id);
+            });
+            newDiv.appendChild(newDelete);
 
             let newRestore = document.createElement("input");
             newRestore.type = "button";
@@ -205,7 +223,7 @@ function renderList()
                 newDiv.appendChild(comments);
             }
 
-            newDeletedList.appendChild(newDiv);
+            newDeletedList.prepend(newDiv);
         }
     });
     let origList = document.getElementById("list");

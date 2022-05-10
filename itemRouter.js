@@ -79,9 +79,18 @@ function deleteItem(req, res, next)
     let id = req.params.itemID;
     if(typeof res.locals.items[id] !== 'undefined')
     {
-        console.log("Deleted item \'" + res.locals.items[id].name + "\'");
-        res.locals.items[id].deleted = true;
-        res.locals.items[id].comments = req.body.comments;
+        if(res.locals.items[id].deleted)
+        {
+            console.log("Permanently deleted item \'" + res.locals.items[id].name + "\'");
+            delete res.locals.items[id];
+        }
+        else
+        {
+            console.log("Deleted item \'" + res.locals.items[id].name + "\'");
+            res.locals.items[id].deleted = true;
+            res.locals.items[id].comments = req.body.comments;
+        }
+
         save(res.locals.items);
         res.status(200).end();
     }
