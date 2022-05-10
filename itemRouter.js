@@ -3,6 +3,7 @@ let router = express.Router();
 router.use(express.static("public"));
 const fs = require('fs');
 
+//Save inventory to file
 function save(items)
 {
     fs.writeFile('items.json', JSON.stringify(items), (err) =>
@@ -14,6 +15,7 @@ function save(items)
     });
 }
 
+//Get a full map of inventory in JSON
 function getItems(req, res, next)
 {
     res.format(
@@ -21,16 +23,16 @@ function getItems(req, res, next)
             json: function()
             {
                 res.status(200).json(res.locals.items);
-                console.log("Sent " + res.locals.items.size + " items");
+                console.log("Sent items");
             }
         });
 
     next();
 }
 
+//Add item to inventory
 function addItem(req, res, next)
 {
-    console.log("Received add request...");
     if(req.body.name.length > 0)
     {
         let name = req.body.name;
@@ -40,7 +42,7 @@ function addItem(req, res, next)
         let item = {name: name, id: newID, deleted: false};
 
         res.locals.items[item.id] = item;
-        console.log("Added item: " + item.name + " ID: " + item.id);
+        console.log("Added item \'" + item.name + "\'");
         save(res.locals.items);
         res.status(200).json(item);
     }
@@ -51,12 +53,13 @@ function addItem(req, res, next)
     }
 }
 
+//Update item from inventory
 function setItem(req, res, next)
 {
     let id = req.params.itemID;
     if(typeof res.locals.items[id] !== 'undefined')
     {
-        console.log("Item changed." + req.body.name);
+        console.log("Updated item \'" + req.body.name + "\'");
 
         res.locals.items[id] = req.body;
         save(res.locals.items);
@@ -68,12 +71,14 @@ function setItem(req, res, next)
         res.status(404).end();
     }
 }
+
+//Delete item from inventory (but keep in memory for undelete)
 function deleteItem(req, res, next)
 {
     let id = req.params.itemID;
     if(typeof res.locals.items[id] !== 'undefined')
     {
-        console.log("Item deleted.");
+        console.log("Deleted item \'" + res.locals.items[id].name + "\'");
         res.locals.items[id].deleted = true;
         res.locals.items[id].comments = req.body.comments;
         save(res.locals.items);
