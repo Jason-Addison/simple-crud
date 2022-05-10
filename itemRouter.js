@@ -6,13 +6,14 @@ const fs = require('fs');
 //Save inventory to file
 function save(items)
 {
-    fs.writeFile('items.json', JSON.stringify(items), (err) =>
+    //Uncomment to reenable saving
+    /*fs.writeFile('items.json', JSON.stringify(items), (err) =>
     {
         if (err)
         {
             throw err;
         }
-    });
+    });*/
 }
 
 //Get a full map of inventory in JSON
