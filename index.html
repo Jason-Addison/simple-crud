@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CRUD 5000</title>
+    <link rel="stylesheet" href="index.css">
+</head>
+<body onload="init()">
+    <div id="wrapper", class="center">
+        <h1 class="centerText">CRUD</h1>
+        <p class="centerText">By Jason :)</p>
+        <p>
+            Add item to inventory below. You can edit the entries or delete them.
+            When deleting, you'll be prompted to confirm deletion. Additionally,
+            you can add deletion comments if you'd like. Once an item is deleted,
+            it can be restored and will be added to front of inventory list.
+        </p>
+        <div id="controlPanel">
+            <div>Add item: <input type="text" id="itemname" /> <button type="button" id="additem">Add Item</button></div><br/>
+        </div>
+        <p>Inventory</p>
+        <div id="list"></div>
+        <p>Recently Deleted</p>
+        <div id="deletedList"></div>
+    </div>
+    <script src="public/js/index.js"></script>
+</body>
+</html>

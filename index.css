@@ -1,0 +1,15 @@
+.center
+{
+    margin: auto;
+    width: 50%;
+    padding: 0px;
+}
+.centerText
+{
+    text-align: center;
+}
+
+#wrapper
+{
+    width: 600px;
+}
